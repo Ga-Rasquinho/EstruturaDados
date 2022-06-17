@@ -50,9 +50,9 @@ int main(){
             printf("Dado encontrado na posicao: #%d", meio);
             dadoEncontrado++;
         }if(vet3[meio] > busca){
-            final = meio - 1;
+            final = --meio;
         }else{
-            inicio = meio + 1;
+            inicio = ++meio;
         }
     }
     return 0;
