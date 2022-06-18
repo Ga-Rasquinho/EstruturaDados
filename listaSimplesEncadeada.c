@@ -1,41 +1,56 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct no No;
-
-struct no{
+// Struct para receber a insercao de dados
+typedef struct no
+{
     int num;
     struct no *proximo;
-};
-
-No* criarNo(){
-    No* novo = (No*) malloc(sizeof(No));
+} No;
+// Aloca um novo no na memoria
+No *criarNo()
+{
+    No *novo = (No *)malloc(sizeof(No));
     return novo;
 }
-
-No* inserirInicio(No* lista, int dado){
+// Inserindo dados na lista
+No *inserirInicio(No *lista, int dado)
+{
     No *novoNo = criarNo();
     novoNo->num = dado;
-    if(lista == NULL){
-        lista=novoNo;
+    if (lista == NULL)
+    {
+        lista = novoNo;
         novoNo->proximo = NULL;
-    } else { 
+    }
+    else
+    {
         novoNo->proximo = lista;
-        lista=novoNo;
+        lista = novoNo;
     }
     return lista;
 }
-void imprimirLista(No* lista){
+void imprimirLista(No *lista)
+{
     No *aux = lista;
-    while(aux != NULL){
+    while (aux != NULL)
+    {
         printf("%d\t", aux->num);
         aux = aux->proximo;
     }
 }
-int main(){
+int main()
+{
     No *lista = NULL;
-    lista = inserirInicio(lista, 10);
-    lista = inserirInicio(lista, 20);
-    imprimirLista(lista);
+    int opcao;
+    printf("Caso deseje interromper a lista digite -1\n");
+    do
+    {
+        printf("\nDigite um dado: ");
+        fflush(stdin);
+        scanf("%d", &opcao);
+        lista = inserirInicio(lista, opcao);
+        imprimirLista(lista);
+    } while (opcao > 0);
+    printf("Fim do programa.");
     return 0;
 }
