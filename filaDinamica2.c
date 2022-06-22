@@ -67,6 +67,7 @@ No *remover_da_fila(Fila *fila)
     }
     return remover;
 }
+/* Método para mostrar os dados da fila */
 void imprimir(Fila *fila)
 {
     No *pontAuxiliar = fila->primeiro;
@@ -87,7 +88,7 @@ int main()
     int opcao, valor;
 
     criarFila(&fila);
-
+    /* Menu */
     do
     {
         printf("\t0 - Sair\n\t1 - Inserir\n\t2 - Remover\n\t3 - Imprimir\n");
