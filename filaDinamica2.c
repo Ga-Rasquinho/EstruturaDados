@@ -32,7 +32,7 @@ void inserir_na_fila(Fila *fila, int num)
         novo->valor = num;  //Atribui o valor que o método recebe
         novo->proximo = NULL;   // Define o próximo como nulo
         /* Em uma fila o valor que vem depois do número inserido deverá ser nulo */
-        // OBS: a inserção de elementos sempre é no final, pois se trata de uma FILA
+        // OBS: a inserção de elementos sempre é no final, pois se trata de uma do tipo FIFO
 
         if (fila->primeiro == NULL) // Verifica se a fila é vazia
         {
