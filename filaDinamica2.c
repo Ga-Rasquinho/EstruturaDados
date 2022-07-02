@@ -1,3 +1,7 @@
+/*
+Autor: Gabriel Fernandes Rasquinho - SP3084094
+Desafio proposto: construcao de uma fila encadeada dinamica.
+*/
 /* Bibliotecas */
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,25 +35,25 @@ void criarFila(Fila *fila)
     fila->fim = NULL;
     fila->tamanho = 0;
 }
-
+/* Metodo para inserir */
 void inserirNaFila(Fila *fila, int num)
 {
-    No *novo = malloc(sizeof(No)); // Alocação de espaço para a variável do tipo struct No
+    No *novo = malloc(sizeof(No)); // Alocacao de espaco para a variavel do tipo struct No
     if (novo != NULL)
     {
         novo->valor = num;    // Atribui o valor que o método recebe
         novo->proximo = NULL; // Define o próximo como nulo
-        /* Em uma fila o valor que vem depois do número inserido deverá ser nulo */
-        // OBS: a inserção de elementos sempre é no final, pois se trata de uma do tipo FIFO
+        /* Em uma fila o valor que vem depois do número inserido devera ser nulo */
+        // OBS: a insercao de elementos sempre e no final, pois se trata de uma do tipo FIFO
 
-        if (fila->primeiro == NULL) // Verifica se a fila é vazia
+        if (fila->primeiro == NULL) // Verifica se a fila e vazia
         {
             fila->primeiro = novo; // Caso a fila seja vazia o primeiro e o ultimo valor receberão o valor inserido
             fila->fim = novo;
         }
         else // Caso a fila não esteja vazia
         {
-            fila->fim->proximo = novo; // Aponta para o final da fila indicando que um novo valor será inserido
+            fila->fim->proximo = novo; // Aponta para o final da fila indicando que um novo valor sera inserido
             fila->fim = novo;          // Aponta para o novo valor inserido
         }
         fila->tamanho++; // Aumenta o tamanho da fila
@@ -59,23 +63,23 @@ void inserirNaFila(Fila *fila, int num)
         printf("\nErro ao alocar memoria.\n");
     }
 }
-
+/* Metodo para remover */
 No *removerDaFila(Fila *fila)
 {
     No *remover = NULL;
-    if (fila->primeiro != NULL) // Verifica se a primeira posição não é nula
+    if (fila->primeiro != NULL) // Verifica se a primeira posicao nao e nula
     {
-        remover = fila->primeiro;          // Atribui o primeiro valor a variável remover
-        fila->primeiro = remover->proximo; // Pega o que seria o próximo elemento e atribui para a primeira posição
+        remover = fila->primeiro;          // Atribui o primeiro valor a variavel remover
+        fila->primeiro = remover->proximo; // Pega o que seria o próximo elemento e atribui para a primeira posicao
         fila->tamanho--;                   // Diminui o tamanho da fila
     }
     else
     {
-        printf("\nFila vazia\n");
+        printf("\n\t*----Nao ha valor para remover----*\n\n");
     }
     return remover;
 }
-/* Método para mostrar os dados da fila */
+/* Metodo para mostrar os dados da fila */
 void imprimir(Fila *fila)
 {
     No *pontAuxiliar = fila->primeiro;
@@ -86,24 +90,43 @@ void imprimir(Fila *fila)
         pontAuxiliar = pontAuxiliar->proximo;
     }
 
-    printf("\n__________ FIM FILA __________\n");
+    printf("\n__________ FIM FILA __________\n\n");
 }
-/* Continuar busca*/
+/* Metodo para buscar */
 Resultado buscar(Fila *fila, int valor)
 {
     No *buscar = fila->primeiro;
-    Resultado resultado = {0, 0, 0};
+    Resultado resultado = {0, 0, 0}; // Inicializando valores
     while (buscar != NULL)
     {
         if (buscar->valor == valor)
         {
-            resultado.valor = buscar->valor;
+            resultado.valor = buscar->valor; // Retornando o valor no qual foi buscado
             resultado.valorFoiEncontrado = 1;
-            resultado.quantidadeOcorrencia++;
+            resultado.quantidadeOcorrencia++; // Verificando quantas vezes o valor aparece
         }
         buscar = buscar->proximo;
     }
     return resultado;
+}
+/* Metodo para limpar a fila */
+No limparFila(Fila *fila)
+{
+    No *limpar;
+    if (fila->primeiro != NULL)
+    {
+        /* While para percorrer toda a fila e apagar todos os dados */
+        while (fila->primeiro != NULL)
+        {
+            limpar = removerDaFila(fila);
+            free(limpar);
+        }
+        printf("\n\t*----Fila limpada com sucesso----*\n\n");
+    }
+    else
+    {
+        printf("\n\t*----Nao ha elemento para limpar----*\n\n");
+    }
 }
 /* Corpo do programa*/
 int main()
@@ -116,7 +139,7 @@ int main()
     /* Menu */
     do
     {
-        printf("\t0 - Sair\n\t1 - Inserir\n\t2 - Remover\n\t3 - Imprimir\n\t4 - Buscar\n\t5 - Verificar Tamanho da Fila\n");
+        printf("\t0 - Sair\n\t1 - Inserir\n\t2 - Remover\n\t3 - Imprimir\n\t4 - Buscar\n\t5 - Verificar Tamanho da Fila\n\t6 - Limpar Fila\n");
         fflush(stdin);
         scanf("%d", &opcao);
 
@@ -155,7 +178,17 @@ int main()
             }
             break;
         case 5:
-            printf("\nTamanho da fila: %d\n\n", fila.tamanho);
+            if (fila.tamanho == 0)
+            {
+                printf("\n\t*----Fila Vazia----*\n\n");
+            }
+            else
+            {
+                printf("\nTamanho da fila: %d\n\n", fila.tamanho);
+            }
+            break;
+        case 6:
+            limparFila(&fila);
             break;
         default:
             if (opcao != 0)
